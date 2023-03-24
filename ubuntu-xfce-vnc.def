@@ -50,7 +50,8 @@ $DEFAULTHOME/install/xfce_ui.sh
   apt-get update
   apt-get install -y --no-install-recommends \
     python \
-    python-numpy
+    python-numpy \
+    paraview
   mkdir -p /opt/websockify
   wget https://github.com/novnc/websockify/archive/master.tar.gz -q -O - | tar xzf - -C /opt/websockify --strip-components=1
 
