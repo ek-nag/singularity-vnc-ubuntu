@@ -1,0 +1,61 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%environment
+    export LANG='en_US.UTF-8'
+    export LANGUAGE='en_US:en'
+    export LC_ALL='en_US.UTF-8'
+    export DEFAULTHOME=/headless
+    export TERM=xterm
+    export NO_VNC_DEFAULT_HOME=/headless/noVNC
+    export VNC_COL_DEPTH=24
+    export VNC_RESOLUTION=1280x1024
+    export VNC_PW=vncpassword
+    export VNC_VIEW_ONLY=false
+
+%files
+    ./src/common/scripts/vnc_startup.sh /opt/
+    ./src/common/scripts/wm_startup.sh /opt/
+    ./src/ubuntu/install/. /headless/install/
+
+%post
+
+export LANG='en_US.UTF-8'
+export LANGUAGE='en_US:en'
+export LC_ALL='en_US.UTF-8'
+export DEFAULTHOME=/headless
+export TERM=xterm
+export NO_VNC_DEFAULT_HOME=/headless/noVNC
+export VNC_COL_DEPTH=24
+export VNC_RESOLUTION=1280x1024
+export VNC_PW=vncpassword
+export VNC_VIEW_ONLY=false
+export DEBIAN_FRONTEND=noninteractive
+
+### Add all install scripts for further steps
+ls $DEFAULTHOME/install
+find $DEFAULTHOME/install -name '*.sh' -exec chmod a+x {} +
+
+### Install some common tools
+ls $DEFAULTHOME/install
+$DEFAULTHOME/install/tools.sh
+
+### Install xvnc-server
+$DEFAULTHOME/install/tigervnc.sh
+
+### Install xfce UI
+$DEFAULTHOME/install/xfce_ui.sh
+
+  # Install websockify
+  apt-get update
+  apt-get install -y --no-install-recommends \
+    python \
+    python-numpy
+  mkdir -p /opt/websockify
+  wget https://github.com/novnc/websockify/archive/master.tar.gz -q -O - | tar xzf - -C /opt/websockify --strip-components=1
+
+### configure startup
+chmod -R 777 $DEFAULTHOME
+rm -rf $DEFAULTHOME/install/
+chmod -R 777 /opt/vnc_startup.sh
+chmod -R 777 /opt/wm_startup.sh
