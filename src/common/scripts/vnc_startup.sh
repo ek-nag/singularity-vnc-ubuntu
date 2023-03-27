@@ -48,8 +48,6 @@ if [ ! -d $HOME/.config/xfce4 ];then
     echo "first time to use vnc, copy vnc scripts files to home"
     \cp -r $DEFAULTHOME/.config $HOME
     \cp -r $DEFAULTHOME/Desktop $HOME
-    \cp -r $DEFAULTHOME/noVNC $VNC_ROOT
-    ln -s $VNC_ROOT/noVNC/vnc_lite.html $VNC_ROOT/noVNC/index.html
 else
     echo "the vnc scripts files are already existing"
 fi
@@ -96,13 +94,6 @@ else
    exit 0
 fi
 
-
-## start vncserver and noVNC webclient
-if [ $NO_VNC_PORT ]; then
-    echo -e "\n------------------ start noVNC  ----------------------------"
-    $VNC_ROOT/noVNC/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &> $LOG_FILE_DIR/${LOG_FILE_PREFIX}_no_vnc_startup.log & 
-    echo -e "\nnoVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
-fi
 
 while true
 do
