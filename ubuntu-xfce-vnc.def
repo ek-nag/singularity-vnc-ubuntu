@@ -1,6 +1,10 @@
 Bootstrap: docker
 From: ubuntu:18.04
 
+
+%apprun vncserver
+    /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+
 %environment
     export LANG='en_US.UTF-8'
     export LANGUAGE='en_US:en'
