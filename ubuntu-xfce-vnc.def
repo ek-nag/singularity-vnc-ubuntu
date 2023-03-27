@@ -18,6 +18,7 @@ From: ubuntu:18.04
     export VNC_VIEW_ONLY=false
 
 %files
+    ./src/common/xfce/. /headless/
     ./src/common/scripts/vnc_startup.sh /opt/
     ./src/common/scripts/wm_startup.sh /opt/
     ./src/ubuntu/install/. /headless/install/
